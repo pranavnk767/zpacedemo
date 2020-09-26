@@ -14,7 +14,7 @@ metadata = Base.metadata
 class User(Base):
     __tablename__ = 'user'
 
-    id = Column(Integer)
+    id = Column(Integer, primary_key=true)
     name = Column(String(50))
 
 
