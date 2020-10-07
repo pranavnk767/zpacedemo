@@ -147,6 +147,54 @@ def saveRegister(request):
         session.close()
         return Response({'response': 'Error occured'})
 
+        # //////////Adv
+
+        @api_view(['GET','POST'])
+        @permission_classes([AllowAny, ])
+        def get_adv(request):
+            try:
+                session = dbsession.Session()
+                columns = ['adv_id','adv_name','adv_imageurl','adv_status']
+                docsql = text('SELECT * FROM demodb.first_advertisement')
+                reviewList = session.execute(docsql).fetchall()
+                review_list = [dict(row) for row in reviewList]
+                review_list = json.dumps(review_list, cls=AlchemyEncoder)
+                review_list = pd.read_json(review_list)
+                if columns:
+                    review_list.columns = columns
+                    review_list = review_list.to_json(orient='records')
+                    session.close()
+                    return Response({'response': 'Success', 'reviews_list': json.loads(review_list)})
+                except SQLAlchemyError as e:
+                    session.rollback()
+                    session.close()
+                    return Response({'response': 'Error occured'})
+
+
+                    # /////////categoryview
+                     # //////////Adv
+
+        @api_view(['GET','POST'])
+        @permission_classes([AllowAny, ])
+        def get_category(request):
+            try:
+                session = dbsession.Session()
+                columns = ['cat_id','cat_name','cat_imageurl','cat_status']
+                docsql = text('SELECT * FROM demodb.product_categoery;')
+                reviewList = session.execute(docsql).fetchall()
+                review_list = [dict(row) for row in reviewList]
+                review_list = json.dumps(review_list, cls=AlchemyEncoder)
+                review_list = pd.read_json(review_list)
+                if columns:
+                    review_list.columns = columns
+                    review_list = review_list.to_json(orient='records')
+                    session.close()
+                    return Response({'response': 'Success', 'reviews_list': json.loads(review_list)})
+                except SQLAlchemyError as e:
+                    session.rollback()
+                    session.close()
+                    return Response({'response': 'Error occured'})
+
 
 
 

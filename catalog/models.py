@@ -37,4 +37,6 @@ class User(Base):
     def check_password(self, raw_password):
         return check_password(raw_password, self.customer_password)
 
+        
+
 
