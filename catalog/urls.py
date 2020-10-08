@@ -8,5 +8,6 @@ urlpatterns = [
     url(r'^login',views.authenticate_user,name='login'),
     url(r'^get_adv',views.get_adv,name='get_adv'),
     url(r'^get_category',views.get_category,name='get_category'),
+    url(r'^get_home',views.get_home,name='get_home'),
 
 ]

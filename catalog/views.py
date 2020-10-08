@@ -196,7 +196,37 @@ def saveRegister(request):
                     return Response({'response': 'Error occured'})
 
 
+                    # /////////////////home
+
+
+        @api_view(['GET','POST'])
+        @permission_classes([AllowAny, ])
+        def get_home(request):
+            try:
+                session = dbsession.Session()
+                columns = ['home_id','home_heading','home_tablename','home_subcategoryname','home_categoryname','home_suburl','home_offer','home_background','home_cardnumber']
+                docsql = text('SELECT * FROM demodb.User_home')
+                reviewList = session.execute(docsql).fetchall()
+                review_list = [dict(row) for row in reviewList]
+                review_list = json.dumps(review_list, cls=AlchemyEncoder)
+                review_list = pd.read_json(review_list)
+                if columns:
+                    review_list.columns = columns
+                    review_list = review_list.to_json(orient='records')
+                    session.close()
+                    return Response({'response': 'Success', 'reviews_list': json.loads(review_list)})
+                except SQLAlchemyError as e:
+                    session.rollback()
+                    session.close()
+                    return Response({'response': 'Error occured'})
 
 
 
-
+`home_heading`,
+`home_tablename`,
+`home_categoryname`,
+`home_subcategoryname`,
+`home_suburl`,
+`home_offer`,
+`home_background`,
+`home_cardnumber`)
